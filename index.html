@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HR Dashboard</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
+    th { background: #f4f4f4; }
+    input { width: 100%; }
+    .btn { padding: 10px 15px; margin-top: 15px; background: #28a745; color: white; border: none; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h2>Employee Dashboard</h2>
+  <table id="employeeTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Gender</th>
+        <th>Phone Number</th>
+        <th>Attendance (Days)</th>
+        <th>Performance (1-10)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><input value="John Doe" /></td>
+        <td><input value="Male" /></td>
+        <td><input value="9876543210" /></td>
+        <td><input value="28" type="number" /></td>
+        <td><input value="8" type="number" /></td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="btn" onclick="saveData()">Save Data</button>
+
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwnjZQlMKaOKDvROD3hsPkJFYHPZHOGeCnsNQ4VdomrCpMuFYi_O1-IuYa83Ae8D5P3YQ/exec'; // <- paste your Apps Script web URL here
+
+    function saveData() {
+      const row = document.querySelector("#employeeTable tbody tr");
+      const inputs = row.querySelectorAll("input");
+      const data = {
+        name: inputs[0].value,
+        gender: inputs[1].value,
+        phone: inputs[2].value,
+        attendance: inputs[3].value,
+        performance: inputs[4].value
+      };
+
+      fetch(scriptURL, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(res => alert("✅ Data saved successfully!"))
+      .catch(err => alert("❌ Error saving data: " + err));
+    }
+  </script>
+</body>
+</html>
